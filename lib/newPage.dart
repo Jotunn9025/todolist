@@ -17,6 +17,29 @@ class NewPage extends StatefulWidget {
 
 class _NewPageState extends State<NewPage> {
   List<Widget> listChildren = [];
+  int deletecounter = 0;
+
+  void addListItem() {
+    setState(() {
+      int values = deletecounter;
+      listChildren.add(
+        AddedContainer(
+          key: ValueKey<int>(values),
+          values: values,
+          onDelete: () {
+            deleteListItem(values);
+          },
+        ),
+      );
+      deletecounter++;
+    });
+  }
+
+  void deleteListItem(int values) {
+    setState(() {
+      listChildren.removeWhere((widget) => widget.key == ValueKey<int>(values));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +69,15 @@ class _NewPageState extends State<NewPage> {
       ),
     );
   }
-
-  void addListItem() {
-    setState(() {
-      listChildren.add(
-        AddedContainer(),
-      );
-    });
-  }
 }
 
 class AddedContainer extends StatefulWidget {
+  final Function onDelete;
+  final int values; // Add the values variable to store the item's key.
+
+  AddedContainer({Key? key, required this.onDelete, required this.values})
+      : super(key: key);
+
   @override
   _AddedContainerState createState() => _AddedContainerState();
 }
@@ -84,7 +105,9 @@ class _AddedContainerState extends State<AddedContainer> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              widget.onDelete(); // Call the onDelete function correctly.
+            },
             icon: Icon(Icons.delete, color: Colors.white54),
           ),
         ],
