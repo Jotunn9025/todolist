@@ -59,7 +59,7 @@ class _TodoListState extends State<TodoList> {
                         color: const Color.fromARGB(255, 52, 52, 52),
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.arrow_forward),
+                        icon: Icon(Icons.arrow_forward,color: Colors.white54,),
                         onPressed: () {
                           Navigator.push(
                             context,
